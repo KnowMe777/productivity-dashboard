@@ -1,3 +1,4 @@
+// task class
 export class Task {
   constructor({
     id = null,
@@ -17,7 +18,7 @@ export class Task {
     this.completedAt = completedAt ?? null;
   }
 
-  // Toggle completion status and track time
+  // toggle complete task
   toggleComplete() {
     this.completed = !this.completed;
     this.completedAt = this.completed ? new Date().toISOString() : null;
@@ -25,7 +26,7 @@ export class Task {
     return this;
   }
 
-  // Update task fields using destructuring + spread
+  // update task
   update({ title, description }) {
     if (title !== undefined) this.title = title.trim();
     if (description !== undefined) this.description = description.trim();
@@ -33,7 +34,7 @@ export class Task {
     return this;
   }
 
-  // Serialize to plain object for localStorage
+  // serialize to plain object for localStorage
   toJSON() {
     const {
       id,
@@ -55,12 +56,10 @@ export class Task {
     };
   }
 
-  // Deserialize from plain object
   static fromJSON(data) {
     return new Task({ ...data });
   }
 
-  // Format date for display
   get formattedDate() {
     return new Date(this.createdAt).toLocaleDateString("en-US", {
       year: "numeric",

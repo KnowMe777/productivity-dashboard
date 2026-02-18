@@ -9,7 +9,7 @@ export class TaskManager {
     this.#loadFromStorage();
   }
 
-  // ── Private Helpers ──────────────────────────────────────
+  //private helpers
 
   #save() {
     try {
@@ -40,12 +40,12 @@ export class TaskManager {
     }
   }
 
-  // ── CRUD ──────────────────────────────────────────────────
+  // CRUP operations
 
   addTask({ title, description, completed = false }) {
     if (!title || !title.trim()) throw new Error("Task title is required.");
     const task = new Task({ title, description, completed });
-    this.#tasks = [...this.#tasks, task]; // spread for immutable-style update
+    this.#tasks = [...this.#tasks, task];
     this.#save();
     return task;
   }
@@ -64,7 +64,7 @@ export class TaskManager {
 
   deleteTask(id) {
     const before = this.#tasks.length;
-    this.#tasks = this.#tasks.filter((t) => t.id !== id); // filter = immutable removal
+    this.#tasks = this.#tasks.filter((t) => t.id !== id);
     if (this.#tasks.length === before)
       throw new Error(`Task with id "${id}" not found.`);
     this.#save();
@@ -78,10 +78,10 @@ export class TaskManager {
     return task;
   }
 
-  // ── Queries (advanced array methods) ─────────────────────
+  // getter functions
 
   getAllTasks() {
-    return [...this.#tasks]; // spread to prevent external mutation
+    return [...this.#tasks];
   }
 
   getCompleted() {
@@ -94,7 +94,6 @@ export class TaskManager {
 
   getStats() {
     const total = this.#tasks.length;
-    // reduce to count completed
     const completed = this.#tasks.reduce(
       (acc, t) => acc + (t.completed ? 1 : 0),
       0,
@@ -104,7 +103,7 @@ export class TaskManager {
     return { total, completed, pending, progress };
   }
 
-  // Filter by status string: "all" | "completed" | "pending"
+  // filter by status
   filterTasks(filter = "all") {
     const filters = {
       all: () => this.getAllTasks(),
@@ -114,7 +113,6 @@ export class TaskManager {
     return (filters[filter] ?? filters.all)();
   }
 
-  // Sort tasks: newest first using spread + sort (non-mutating)
   getSortedByDate(tasks = this.getAllTasks()) {
     return [...tasks].sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt),

@@ -2,7 +2,7 @@ export class UIController {
   #manager;
   #currentFilter = "all";
 
-  // DOM element references
+  // cached DOM elements
   #tasksList;
   #taskModal;
   #taskForm;
@@ -22,11 +22,9 @@ export class UIController {
     this.#manager = manager;
     this.#bindElements();
     this.#bindEvents();
-    this.render();
   }
 
-  // ── Bind DOM Elements ────────────────────────────────────
-
+  // get DOM reference
   #bindElements() {
     this.#tasksList = document.getElementById("tasksList");
     this.#taskModal = document.getElementById("taskModal");
@@ -43,32 +41,24 @@ export class UIController {
     this.#progressEl = document.getElementById("progress");
   }
 
-  // ── Bind Events ───────────────────────────────────────────
-
+  // attach event listeners
   #bindEvents() {
-    // Open modal
-    this.#newTaskBtn.addEventListener("click", () => this.#openModal());
-
-    // Close modal (X button & Cancel button)
-    this.#closeModalX.addEventListener("click", () => this.#closeModal());
-    this.#closeModalBtn.addEventListener("click", () => this.#closeModal());
-
-    // Close on backdrop click
-    this.#taskModal.addEventListener("click", (e) => {
+    this.#newTaskBtn?.addEventListener("click", () => this.#openModal());
+    this.#closeModalX?.addEventListener("click", () => this.#closeModal());
+    this.#closeModalBtn?.addEventListener("click", () => this.#closeModal());
+    this.#taskModal?.addEventListener("click", (e) => {
       if (e.target === this.#taskModal) this.#closeModal();
     });
-
-    // Form submit
-    this.#taskForm.addEventListener("submit", (e) => this.#handleFormSubmit(e));
-
-    // Event delegation on task list (complete / edit / delete)
-    this.#tasksList.addEventListener("click", (e) => this.#handleTaskAction(e));
+    this.#taskForm?.addEventListener("submit", (e) =>
+      this.#handleFormSubmit(e),
+    );
+    this.#tasksList?.addEventListener("click", (e) =>
+      this.#handleTaskAction(e),
+    );
   }
 
-  // ── Modal ────────────────────────────────────────────────
-
+  // open modal for new task or edit task
   #openModal(task = null) {
-    // Editing mode: pre-fill form
     if (task) {
       this.#titleInput.value = task.title;
       this.#descInput.value = task.description;
@@ -92,8 +82,7 @@ export class UIController {
     this.#clearErrors();
   }
 
-  // ── Form Validation & Submit ──────────────────────────────
-
+  // basic form validation
   #validateForm() {
     const title = this.#titleInput.value.trim();
     if (!title) {
@@ -107,8 +96,8 @@ export class UIController {
     return true;
   }
 
+  // validation error
   #showError(msg) {
-    // Create error element if it doesn't exist
     if (!this.#titleError) {
       this.#titleError = document.createElement("p");
       this.#titleError.className = "text-red-500 text-xs mt-1";
@@ -126,28 +115,21 @@ export class UIController {
   #handleFormSubmit(e) {
     e.preventDefault();
     this.#clearErrors();
-
     try {
       if (!this.#validateForm()) return;
-
       const title = this.#titleInput.value.trim();
       const description = this.#descInput.value.trim();
       const completed = this.#statusCheckbox.checked;
       const editId = this.#taskForm.dataset.editId;
-
       if (editId) {
-        // Update existing task
         this.#manager.updateTask(editId, { title, description });
-        // Also sync completed status if changed
         const task = this.#manager.getTaskById(editId);
         if (task && task.completed !== completed) {
           this.#manager.toggleTask(editId);
         }
       } else {
-        // Create new task
         this.#manager.addTask({ title, description, completed });
       }
-
       this.#closeModal();
       this.render();
     } catch (err) {
@@ -156,32 +138,25 @@ export class UIController {
     }
   }
 
-  // ── Event Delegation for Task Actions ────────────────────
-
+  // handle toggle, edit, delete
   #handleTaskAction(e) {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
-
     const { action, id } = btn.dataset;
-
     try {
       switch (action) {
         case "toggle":
           this.#manager.toggleTask(id);
           this.render();
           break;
-
         case "edit": {
           const task = this.#manager.getTaskById(id);
           if (task) this.#openModal(task);
           break;
         }
-
         case "delete":
-          if (confirm("Are you sure you want to delete this task?")) {
-            this.#manager.deleteTask(id);
-            this.render();
-          }
+          this.#manager.deleteTask(id);
+          this.render();
           break;
       }
     } catch (err) {
@@ -189,26 +164,26 @@ export class UIController {
     }
   }
 
-  // ── Rendering ────────────────────────────────────────────
-
+  // first render
   render() {
     this.#renderStats();
     this.#renderTasks();
   }
 
+  // render dashboard stats
   #renderStats() {
     const { total, completed, pending, progress } = this.#manager.getStats();
-    this.#totalEl.textContent = total;
-    this.#completedEl.textContent = completed;
-    this.#pendingEl.textContent = pending;
-    this.#progressEl.textContent = `${progress}%`;
+    if (this.#totalEl) this.#totalEl.textContent = total;
+    if (this.#completedEl) this.#completedEl.textContent = completed;
+    if (this.#pendingEl) this.#pendingEl.textContent = pending;
+    if (this.#progressEl) this.#progressEl.textContent = `${progress}%`;
   }
 
+  // render tasks
   #renderTasks() {
     const tasks = this.#manager.getSortedByDate(
       this.#manager.filterTasks(this.#currentFilter),
     );
-
     if (tasks.length === 0) {
       this.#tasksList.innerHTML = `
         <div class="p-12 text-center text-gray-400 flex flex-col items-center justify-center">
@@ -217,29 +192,23 @@ export class UIController {
         </div>`;
       return;
     }
-
-    // Use map to build each task card, then join with template literals
     this.#tasksList.innerHTML = tasks
       .map((task) => this.#taskTemplate(task))
       .join("");
   }
 
-  // Template literal for dynamic task card rendering
-  #taskTemplate({ id, title, description, completed, formattedDate, status }) {
+  // template for rendering a task
+  #taskTemplate({ id, title, description, completed, formattedDate }) {
     const completedStyles = completed ? "bg-green-50/30" : "hover:bg-gray-50";
-
     const titleStyles = completed
       ? "text-base font-semibold text-gray-900 line-through"
       : "text-base font-semibold text-gray-900";
-
     const descStyles = completed
-      ? "text-sm text-gray-600  mb-3 line-through"
+      ? "text-sm text-gray-600 mb-3 line-through"
       : "text-sm text-gray-600 mb-3";
-
     const statusBadge = completed
       ? `<span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">Completed</span>`
       : `<span class="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full">Pending</span>`;
-
     const checkIcon = completed
       ? `<i class="fa-regular fa-circle-check text-green-600"></i>`
       : `<i class="fa-regular fa-circle-check text-gray-400"></i>`;
@@ -249,14 +218,9 @@ export class UIController {
         <div class="flex items-start justify-between">
           <div class="flex-1">
             <div class="flex items-center gap-3 mb-2">
-             
               <h3 class="${titleStyles}">${this.#escapeHTML(title)}</h3>
             </div>
-            ${
-              description
-                ? `<p class="${descStyles}">${this.#escapeHTML(description)}</p>`
-                : ""
-            }
+            ${description ? `<p class="${descStyles}">${this.#escapeHTML(description)}</p>` : ""}
             <div class="flex items-center gap-4">
               <span class="text-xs text-gray-500 flex items-center gap-1">
                 <i class="fa-regular fa-calendar"></i>
@@ -266,28 +230,17 @@ export class UIController {
             </div>
           </div>
           <div class="flex items-center gap-2 ml-4">
-            <button
-              class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              data-action="toggle"
-              data-id="${id}"
-              title="${completed ? "Mark as pending" : "Mark as complete"}"
-            >
+            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              data-action="toggle" data-id="${id}"
+              title="${completed ? "Mark as pending" : "Mark as complete"}">
               ${checkIcon}
             </button>
-            <button
-              class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              data-action="edit"
-              data-id="${id}"
-              title="Edit task"
-            >
+            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              data-action="edit" data-id="${id}" title="Edit task">
               <i class="fa-regular fa-pen-to-square text-gray-400"></i>
             </button>
-            <button
-              class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              data-action="delete"
-              data-id="${id}"
-              title="Delete task"
-            >
+            <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              data-action="delete" data-id="${id}" title="Delete task">
               <i class="fa-regular fa-trash-can text-gray-400"></i>
             </button>
           </div>
@@ -309,7 +262,6 @@ export class UIController {
     );
   }
 
-  // Allow external filter changes (used by page-specific scripts)
   setFilter(filter) {
     this.#currentFilter = filter;
     this.render();

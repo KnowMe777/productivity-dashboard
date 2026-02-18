@@ -6,9 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tm = new TaskManager("tasks");
     const ui = new UIController(tm);
 
-    // Detect filter from the current page filename
-    // Works regardless of full path / server prefix
-    const filename = location.pathname.split("/").pop(); // e.g. "completed.html"
+    const filename = location.pathname.split("/").pop();
 
     const pageToFilter = {
       "allTasks.html": "all",
@@ -17,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const filter = pageToFilter[filename] ?? "all";
-    ui.displayTasks(filter);
+    ui.setFilter(filter);
   } catch (err) {
     console.error("TaskFlow init error:", err);
   }
