@@ -18,8 +18,8 @@
     ></script>
 
     <script>
-      // If no session, start at login page
-      if (!sessionStorage.getItem("ph_session")) {
+      // if no session, start at login page
+      if (!sessionStorage.getItem("12_session")) {
         window.location.replace("./login.html");
       }
     </script>
@@ -72,6 +72,47 @@
           <span class="font-medium">Settings</span>
         </a>
       </nav>
+
+      <!-- div for logout button -->
+
+      <div class="absolute bottom-0 left-0 w-full bg-white p-5">
+        <div class="flex items-center gap-3">
+          <!-- avatar -->
+          <div
+            class="h-10 w-10 rounded-full bg-gray-800 text-white flex items-center justify-center font-semibold"
+          >
+            A
+          </div>
+
+          <!-- name and email -->
+          <div class="min-w-0">
+            <p class="text-sm font-semibold text-black leading-5 truncate">
+              Admin User
+            </p>
+            <p class="text-xs text-gray-600 leading-4 truncate">
+              admin@example.com
+            </p>
+          </div>
+        </div>
+
+        <!-- logout button -->
+        <button
+          id="logoutBtn"
+          type="button"
+          class="mt-4 w-full flex items-center justify-center gap-3 text-left text-black hover:bg-gray-200 duration-200 border-none p-2 rounded-md"
+        >
+          <i class="fa-solid fa-sign-out"></i>
+
+          <span class="text-sm font-semibold">Logout</span>
+        </button>
+      </div>
+
+      <script type="module">
+        import { handleLogout } from "./src/auth/logout.js";
+        document
+          .getElementById("logoutBtn")
+          ?.addEventListener("click", handleLogout);
+      </script>
     </aside>
 
     <!-- main content section -->
@@ -230,9 +271,9 @@
                 id="taskFilter"
                 class="px-3 py-1 bg-gray-200 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
               >
-                <option value="">All Tasks</option>
-                <option>Pending Tasks</option>
-                <option>Completed Tasks</option>
+                <option value="all">All Tasks</option>
+                <option value="pending">Pending Tasks</option>
+                <option value="completed">Completed Tasks</option>
               </select>
 
               <button

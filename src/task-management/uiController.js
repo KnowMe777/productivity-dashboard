@@ -17,6 +17,7 @@ export class UIController {
   #pendingEl;
   #progressEl;
   #titleError;
+  #filterSelect;
 
   constructor(manager) {
     this.#manager = manager;
@@ -39,6 +40,7 @@ export class UIController {
     this.#completedEl = document.getElementById("completed-task");
     this.#pendingEl = document.getElementById("pending-task");
     this.#progressEl = document.getElementById("progress");
+    this.#filterSelect = document.getElementById("taskFilter");
   }
 
   // attach event listeners
@@ -55,6 +57,9 @@ export class UIController {
     this.#tasksList?.addEventListener("click", (e) =>
       this.#handleTaskAction(e),
     );
+    this.#filterSelect?.addEventListener("change", (e) => {
+      this.setFilter(e.target.value);
+    });
   }
 
   // open modal for new task or edit task

@@ -7,3 +7,5 @@ export function handleLogout() {
   const loginPath = isInPagesFolder ? "../login.html" : "./login.html";
   window.location.replace(loginPath);
 }
+
+document.getElementById("logoutBtn")?.addEventListener("click", handleLogout);

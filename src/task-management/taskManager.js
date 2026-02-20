@@ -27,7 +27,6 @@ export class TaskManager {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        // Use spread + map to restore Task instances
         this.#tasks = [...parsed.map((data) => Task.fromJSON(data))];
       }
     } catch (err) {
