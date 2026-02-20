@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "name": "Sarah Johnson",
+    "email": "sarah.johnson@company.com",
+    "role": "Manager",
+    "department": "Engineering",
+    "joiningDate": "2023-01-15",
+    "status": "active"
+  },
+  {
+    "id": 2,
+    "name": "Michael Chen",
+    "email": "michael.chen@company.com",
+    "role": "Senior Developer",
+    "department": "Engineering",
+    "joiningDate": "2023-03-22",
+    "status": "active"
+  },
+  {
+    "id": 3,
+    "name": "Emily Rodriguez",
+    "email": "emily.rodriguez@company.com",
+    "role": "Product Designer",
+    "department": "Design",
+    "joiningDate": "2023-02-10",
+    "status": "active"
+  },
+  {
+    "id": 4,
+    "name": "James Wilson",
+    "email": "james.wilson@company.com",
+    "role": "Marketing Lead",
+    "department": "Marketing",
+    "joiningDate": "2022-11-05",
+    "status": "inactive"
+  },
+  {
+    "id": 5,
+    "name": "Aisha Patel",
+    "email": "aisha.patel@company.com",
+    "role": "Data Analyst",
+    "department": "Analytics",
+    "joiningDate": "2023-04-18",
+    "status": "active"
+  },
+  {
+    "id": 6,
+    "name": "David Kim",
+    "email": "david.kim@company.com",
+    "role": "DevOps Engineer",
+    "department": "Engineering",
+    "joiningDate": "2023-05-30",
+    "status": "active"
+  },
+  {
+    "id": 7,
+    "name": "Lisa Anderson",
+    "email": "lisa.anderson@company.com",
+    "role": "HR Manager",
+    "department": "Human Resources",
+    "joiningDate": "2022-09-12",
+    "status": "active"
+  },
+  {
+    "id": 8,
+    "name": "Robert Taylor",
+    "email": "robert.taylor@company.com",
+    "role": "Sales Executive",
+    "department": "Sales",
+    "joiningDate": "2023-06-20",
+    "status": "active"
+  },
+  {
+    "id": 9,
+    "name": "Maria Garcia",
+    "email": "maria.garcia@company.com",
+    "role": "UX Researcher",
+    "department": "Design",
+    "joiningDate": "2023-01-08",
+    "status": "inactive"
+  },
+  {
+    "id": 10,
+    "name": "Kevin Brown",
+    "email": "kevin.brown@company.com",
+    "role": "Content Writer",
+    "department": "Marketing",
+    "joiningDate": "2023-07-15",
+    "status": "active"
+  },
+  {
+    "id": 11,
+    "name": "Sophia Lee",
+    "email": "sophia.lee@company.com",
+    "role": "Junior Developer",
+    "department": "Engineering",
+    "joiningDate": "2023-08-01",
+    "status": "active"
+  },
+  {
+    "id": 12,
+    "name": "Daniel Martinez",
+    "email": "daniel.martinez@company.com",
+    "role": "Product Manager",
+    "department": "Product",
+    "joiningDate": "2022-12-10",
+    "status": "active"
+  },
+  {
+    "id": 13,
+    "name": "Olivia Smith",
+    "email": "olivia.smith@company.com",
+    "role": "QA Engineer",
+    "department": "Engineering",
+    "joiningDate": "2023-02-25",
+    "status": "active"
+  },
+  {
+    "id": 14,
+    "name": "Noah Davis",
+    "email": "noah.davis@company.com",
+    "role": "Business Analyst",
+    "department": "Analytics",
+    "joiningDate": "2023-03-05",
+    "status": "active"
+  },
+  {
+    "id": 15,
+    "name": "Emma Wilson",
+    "email": "emma.wilson@company.com",
+    "role": "Graphic Designer",
+    "department": "Design",
+    "joiningDate": "2022-10-18",
+    "status": "inactive"
+  },
+  {
+    "id": 16,
+    "name": "Liam Thompson",
+    "email": "liam.thompson@company.com",
+    "role": "Sales Manager",
+    "department": "Sales",
+    "joiningDate": "2023-04-12",
+    "status": "active"
+  },
+  {
+    "id": 17,
+    "name": "Ava Martinez",
+    "email": "ava.martinez@company.com",
+    "role": "Recruiter",
+    "department": "Human Resources",
+    "joiningDate": "2023-01-28",
+    "status": "active"
+  },
+  {
+    "id": 18,
+    "name": "William Anderson",
+    "email": "william.anderson@company.com",
+    "role": "Node Developer",
+    "department": "Engineering",
+    "joiningDate": "2023-06-02",
+    "status": "active"
+  },
+  {
+    "id": 19,
+    "name": "Isabella Thomas",
+    "email": "isabella.thomas@company.com",
+    "role": "React Developer",
+    "department": "Engineering",
+    "joiningDate": "2023-07-10",
+    "status": "active"
+  },
+  {
+    "id": 20,
+    "name": "Ethan White",
+    "email": "ethan.white@company.com",
+    "role": "Support Engineer",
+    "department": "Customer Support",
+    "joiningDate": "2022-08-22",
+    "status": "inactive"
+  }
+]

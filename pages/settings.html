@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Productivity Hub</title>
+
+    <!-- using tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- using font awesome for icons -->
+    <script
+      src="https://kit.fontawesome.com/e831457755.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body class="bg-[#F5F5F5] font-sans">
+    <!-- sidebar -->
+    <aside
+      class="min-h-screen border-r border-gray-200 w-64 fixed left-0 top-0 bg-white"
+    >
+      <!-- div for heading -->
+      <div class="p-6 border-b border-gray-200">
+        <h1 class="font-bold text-xl text-gray-900">Productivity Hub</h1>
+      </div>
+
+      <!-- div for tabs -->
+      <nav class="flex flex-col p-4 gap-2">
+        <a
+          data-filter="all"
+          href="../index.html"
+          class="filter-btn active w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
+        >
+          <i class="fa-solid fa-grip w-5"></i>
+          <span class="font-medium">Dashboard</span>
+        </a>
+
+        <a
+          data-filter="all"
+          href="allTasks.html"
+          class="filter-btn w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
+        >
+          <i class="fa-solid fa-list-check w-5"></i>
+          <span class="font-medium">All Tasks</span>
+        </a>
+
+        <a
+          data-filter="users"
+          href="users.html"
+          class="filter-btn w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
+        >
+          <i class="fa-solid fa-user w-5"></i>
+          <span class="font-medium">Users</span>
+        </a>
+
+        <a
+          data-filter="settings"
+          href="settings.html"
+          class="filter-btn w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
+        >
+          <i class="fa-solid fa-gear w-5"></i>
+          <span class="font-medium">Settings</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- main content section -->
+    <div class="ml-64">
+      <!-- fixed header -->
+      <header
+        class="flex justify-between items-center fixed top-0 right-0 bg-white px-8 py-4 border-b border-gray-200 z-10"
+        style="left: 256px"
+      >
+        <div>
+          <h1 class="font-bold text-2xl text-gray-900">Settings</h1>
+        </div>
+
+        <div class="relative">
+          <i
+            class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+          ></i>
+
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search..."
+            class="pl-10 pr-4 py-2 bg-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+          />
+        </div>
+      </header>
+
+      <!-- main content -->
+      <main class="mx-auto max-w-[900px] px-6 py-10">
+        <!-- profile settings card -->
+        <section
+          class="bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden mt-16"
+        >
+          <div class="p-8">
+            <h2 class="text-xl font-semibold text-gray-900">
+              Profile Settings
+            </h2>
+
+            <div class="mt-8 space-y-5">
+              <div>
+                <label class="block text-sm font-semibold text-gray-900"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  placeholder="John Doe"
+                  class="mt-2 w-full h-10 rounded-lg bg-gray-100 border border-gray-100 px-4 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-gray-900"
+                  >Email Address</label
+                >
+                <input
+                  type="email"
+                  placeholder="admin@example.com"
+                  class="mt-2 w-full h-10 rounded-lg bg-gray-100 border border-gray-100 px-4 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-gray-900"
+                  >New Password</label
+                >
+                <input
+                  type="password"
+                  placeholder="Leave blank to keep current password"
+                  class="mt-2 w-full h-10 rounded-lg bg-gray-100 border border-gray-100 px-4 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- notifications card -->
+        <section
+          class="mt-2 bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden"
+        >
+          <div class="p-8">
+            <h2 class="text-xl font-semibold text-gray-900">Notifications</h2>
+
+            <div class="mt-8">
+              <!-- row 1 -->
+              <div class="flex items-center justify-between gap-6">
+                <div>
+                  <p class="text-sm font-semibold text-gray-900">
+                    Push Notifications
+                  </p>
+                  <p class="text-sm text-gray-500">
+                    Receive push notifications for updates
+                  </p>
+                </div>
+
+                <!-- toggle buttin -->
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" class="sr-only peer" />
+
+                  <div
+                    class="w-12 h-6 bg-gray-300 rounded-full peer-checked:bg-blue-600 transition-colors"
+                  ></div>
+
+                  <div
+                    class="absolute left-0 top-0.5 w-5 h-5 bg-white rounded-full shadow transform transition-transform peer-checked:translate-x-6"
+                  ></div>
+                </label>
+              </div>
+
+              <div class="my-6 h-px w-full bg-gray-200"></div>
+
+              <!-- row 2 -->
+              <div class="flex items-center justify-between gap-6">
+                <div>
+                  <p class="text-sm font-semibold text-gray-900">
+                    Email Alerts
+                  </p>
+                  <p class="text-sm text-gray-500">
+                    Receive email alerts for important updates
+                  </p>
+                </div>
+
+                <!-- toggle button -->
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" class="sr-only peer" />
+
+                  <div
+                    class="w-12 h-6 bg-gray-300 rounded-full peer-checked:bg-blue-600 transition-colors"
+                  ></div>
+
+                  <div
+                    class="absolute left-0 top-0.5 w-5 h-5 bg-white rounded-full shadow transform transition-transform peer-checked:translate-x-6"
+                  ></div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- appearance card -->
+        <section
+          class="mt-2 bg-white rounded-xl border border-gray-200 shadow-md overflow-hidden"
+        >
+          <div class="p-8">
+            <h2 class="text-xl font-semibold text-gray-900">Appearance</h2>
+
+            <div class="mt-8 flex items-center justify-between gap-6">
+              <div>
+                <p class="text-sm font-semibold text-gray-900">Dark Mode</p>
+                <p class="text-sm text-gray-500">Toggle dark mode theme</p>
+              </div>
+
+              <!-- toggle button -->
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" />
+
+                <div
+                  class="w-12 h-6 bg-gray-300 rounded-full peer-checked:bg-blue-600 transition-colors"
+                ></div>
+
+                <div
+                  class="absolute left-0 top-0.5 w-5 h-5 bg-white rounded-full shadow transform transition-transform peer-checked:translate-x-6"
+                ></div>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- danger zone card -->
+        <section
+          class="mt-2 bg-white rounded-xl border border-red-500 shadow-md overflow-hidden"
+        >
+          <div class="p-8">
+            <h2 class="text-xl font-semibold text-red-500">Danger Zone</h2>
+
+            <p class="mt-6 text-sm text-gray-500 max-w-[520px]">
+              Once you delete your account, there is no going back. Please be
+              certain.
+            </p>
+
+            <button
+              type="button"
+              class="mt-5 inline-flex items-center justify-center rounded-lg bg-red-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-red-600 active:bg-red-700"
+            >
+              Delete Account
+            </button>
+          </div>
+        </section>
+
+        <!-- footer buttons -->
+        <div class="mt-10 flex items-center justify-end gap-4">
+          <button
+            type="button"
+            class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="button"
+            class="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 active:bg-blue-800"
+          >
+            Save Changes
+          </button>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

@@ -3,59 +3,71 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TaskFlow</title>
-    <script type="module" src="../src/app.js" defer></script>
+    <title>Productivity Hub</title>
+    <script type="module" src="../src/task-management/app.js" defer></script>
 
     <!-- using tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- using fontawesome for icons -->
+    <!-- using font awesome for icons -->
     <script
       src="https://kit.fontawesome.com/e831457755.js"
       crossorigin="anonymous"
     ></script>
   </head>
-  <body class="bg-[#F5F5F5] font-sans" data-filter="all">
+  <body class="bg-[#F5F5F5] font-sans">
     <!-- sidebar -->
     <aside
       class="min-h-screen border-r border-gray-200 w-64 fixed left-0 top-0 bg-white"
     >
+      <!-- div for heading -->
       <div class="p-6 border-b border-gray-200">
-        <h1 class="font-bold text-xl text-gray-900">TaskFlow</h1>
+        <h1 class="font-bold text-xl text-gray-900">Productivity Hub</h1>
       </div>
+
+      <!-- div for tabs -->
       <nav class="flex flex-col p-4 gap-2">
         <a
+          data-filter="all"
           href="../index.html"
-          class="filter-btn w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
+          class="filter-btn active w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
         >
           <i class="fa-solid fa-grip w-5"></i>
           <span class="font-medium">Dashboard</span>
         </a>
+
         <a
+          data-filter="all"
           href="allTasks.html"
-          class="filter-btn active w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
+          class="filter-btn w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
         >
           <i class="fa-solid fa-list-check w-5"></i>
           <span class="font-medium">All Tasks</span>
         </a>
+
         <a
-          href="completed.html"
+          data-filter="users"
+          href="users.html"
           class="filter-btn w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
         >
-          <i class="fa-solid fa-check w-5"></i>
-          <span class="font-medium">Completed</span>
+          <i class="fa-solid fa-user w-5"></i>
+          <span class="font-medium">Users</span>
         </a>
+
         <a
-          href="pending.html"
+          data-filter="settings"
+          href="settings.html"
           class="filter-btn w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
         >
-          <i class="fa-solid fa-clock w-5"></i>
-          <span class="font-medium">Pending</span>
+          <i class="fa-solid fa-gear w-5"></i>
+          <span class="font-medium">Settings</span>
         </a>
       </nav>
     </aside>
 
+    <!-- main content section -->
     <div class="ml-64">
+      <!-- fixed header -->
       <header
         class="flex justify-between items-center fixed top-0 right-0 bg-white px-8 py-4 border-b border-gray-200 z-10"
         style="left: 256px"
@@ -63,19 +75,24 @@
         <div>
           <h1 class="font-bold text-2xl text-gray-900">All Tasks</h1>
         </div>
-        <div>
-          <button
-            id="newTaskBtn"
-            class="bg-black text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-gray-800 transition-colors flex items-center gap-2"
-          >
-            <i class="fa-solid fa-plus"></i>
-            <span>New Task</span>
-          </button>
+
+        <div class="relative">
+          <i
+            class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+          ></i>
+
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search..."
+            class="pl-10 pr-4 py-2 bg-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+          />
         </div>
       </header>
 
-      <main class="pt-20 py-4">
-        <!-- modal -->
+      <!-- Main Content with top padding -->
+      <main class="pt-14 px-4 py-6">
+        <!-- add new task modal -->
         <div
           id="taskModal"
           class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
@@ -92,18 +109,22 @@
                 ✕
               </button>
             </div>
+
             <form id="taskForm" class="p-6 space-y-4">
               <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1"
                   >Title</label
                 >
+
                 <input
-                  type="text"
                   id="taskTitle"
+                  type="text"
                   placeholder="Enter task title"
                   class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-black outline-none"
+                  required
                 />
               </div>
+
               <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1"
                   >Description</label
@@ -115,6 +136,7 @@
                   class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-black outline-none"
                 ></textarea>
               </div>
+
               <div class="flex items-center gap-3">
                 <label class="text-sm font-semibold text-gray-700"
                   >Status:</label
@@ -130,6 +152,7 @@
                   <span>Pending</span>
                 </div>
               </div>
+
               <div class="flex justify-end gap-3 pt-4">
                 <button
                   type="button"
@@ -149,9 +172,323 @@
           </div>
         </div>
 
-        <!-- tasks list  -->
-        <div class="bg-white shadow-sm border border-gray-100 overflow-hidden">
-          <div id="tasksList" class="divide-y divide-gray-100"></div>
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 m-8">
+          <!-- total tasks card -->
+          <div
+            class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col gap-4"
+          >
+            <h3 class="text-gray-500 text-sm font-medium">Total</h3>
+            <p class="text-3xl font-bold text-gray-900" id="total-task">5</p>
+          </div>
+
+          <!-- completed tasks card -->
+          <div
+            class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col gap-4"
+          >
+            <h3 class="text-gray-500 text-sm font-medium">Completed</h3>
+            <p class="text-3xl font-bold text-gray-900" id="completed-task">
+              2
+            </p>
+          </div>
+
+          <!-- pending tasks card -->
+          <div
+            class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col gap-4"
+          >
+            <h3 class="text-gray-500 text-sm font-medium">Pending</h3>
+            <p class="text-3xl font-bold text-gray-900" id="pending-task">3</p>
+          </div>
+
+          <!-- progress card -->
+          <div
+            class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col gap-4"
+          >
+            <h3 class="text-gray-500 text-sm font-medium">Progress</h3>
+            <p class="text-3xl font-bold text-gray-900" id="progress">40%</p>
+          </div>
+        </div>
+
+        <!-- tasks list -->
+        <div
+          class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
+        >
+          <!-- div for heading button and filter -->
+          <div class="flex items-center justify-between bg-[#F5F5F5] p-4">
+            <h1 class="font-bold text-lg">Tasks</h1>
+            <div class="w-full flex items-center justify-end gap-2">
+              <select
+                id="taskFilter"
+                class="px-3 py-1 bg-gray-200 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              >
+                <option value="">All Tasks</option>
+                <option>Pending Tasks</option>
+                <option>Completed Tasks</option>
+              </select>
+
+              <button
+                id="newTaskBtn"
+                class="bg-gray-800 text-white px-3 py-1 rounded-md hover:bg-gray-700 transition-colors flex items-center gap-2"
+              >
+                <i class="fa-solid fa-plus"></i>
+                <span>New Task</span>
+              </button>
+            </div>
+          </div>
+          <div
+            id="tasksList"
+            class="border rounded-lg divide-y divide-gray-100"
+          >
+            <!-- Task Item 1 -->
+            <div class="p-6 hover:bg-gray-50 transition-colors">
+              <div class="flex items-start justify-between">
+                <div class="flex-1">
+                  <div class="flex items-center gap-3 mb-2">
+                    <input
+                      type="checkbox"
+                      class="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <h3 class="text-base font-semibold text-gray-900">
+                      Mobile responsive design
+                    </h3>
+                  </div>
+                  <p class="text-sm text-gray-600 ml-8 mb-3">
+                    Ensure all components are fully responsive across mobile,
+                    tablet, and desktop
+                  </p>
+                  <div class="flex items-center gap-4 ml-8">
+                    <span class="text-xs text-gray-500 flex items-center gap-1">
+                      <i class="fa-regular fa-calendar"></i>
+                      Due Feb 10, 2028
+                    </span>
+                    <span
+                      class="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full"
+                    >
+                      Pending
+                    </span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 ml-4">
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-circle-check text-gray-400"></i>
+                  </button>
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-pen-to-square text-gray-400"></i>
+                  </button>
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-trash-can text-gray-400"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Task Item 2 -->
+            <div class="p-6 hover:bg-gray-50 transition-colors">
+              <div class="flex items-start justify-between">
+                <div class="flex-1">
+                  <div class="flex items-center gap-3 mb-2">
+                    <input
+                      type="checkbox"
+                      class="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <h3 class="text-base font-semibold text-gray-900">
+                      Dashboard analytics
+                    </h3>
+                  </div>
+                  <p class="text-sm text-gray-600 ml-8 mb-3">
+                    Implement analytics dashboard with charts and real-time data
+                    visualization
+                  </p>
+                  <div class="flex items-center gap-4 ml-8">
+                    <span class="text-xs text-gray-500 flex items-center gap-1">
+                      <i class="fa-regular fa-calendar"></i>
+                      Due Feb 16, 2028
+                    </span>
+                    <span
+                      class="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full"
+                    >
+                      Pending
+                    </span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 ml-4">
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-circle-check text-gray-400"></i>
+                  </button>
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-pen-to-square text-gray-400"></i>
+                  </button>
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-trash-can text-gray-400"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Task Item 3 -->
+            <div class="p-6 hover:bg-gray-50 transition-colors">
+              <div class="flex items-start justify-between">
+                <div class="flex-1">
+                  <div class="flex items-center gap-3 mb-2">
+                    <input
+                      type="checkbox"
+                      class="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <h3 class="text-base font-semibold text-gray-900">
+                      API integration
+                    </h3>
+                  </div>
+                  <p class="text-sm text-gray-600 ml-8 mb-3">
+                    Integrate REST API endpoints for task management and user
+                    authentication
+                  </p>
+                  <div class="flex items-center gap-4 ml-8">
+                    <span class="text-xs text-gray-500 flex items-center gap-1">
+                      <i class="fa-regular fa-calendar"></i>
+                      Due Feb 20, 2028
+                    </span>
+                    <span
+                      class="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full"
+                    >
+                      Pending
+                    </span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 ml-4">
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-circle-check text-gray-400"></i>
+                  </button>
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-pen-to-square text-gray-400"></i>
+                  </button>
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-trash-can text-gray-400"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Task Item 4 -->
+            <div class="p-6 hover:bg-gray-50 transition-colors bg-green-50/30">
+              <div class="flex items-start justify-between">
+                <div class="flex-1">
+                  <div class="flex items-center gap-3 mb-2">
+                    <input
+                      type="checkbox"
+                      checked
+                      class="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <h3
+                      class="text-base font-semibold text-gray-900 line-through"
+                    >
+                      Design system setup
+                    </h3>
+                  </div>
+                  <p class="text-sm text-gray-600 ml-8 mb-3 line-through">
+                    Create a comprehensive design system with reusable
+                    components following Tailwind best practices
+                  </p>
+                  <div class="flex items-center gap-4 ml-8">
+                    <span class="text-xs text-gray-500 flex items-center gap-1">
+                      <i class="fa-regular fa-calendar"></i>
+                      Due Feb 15, 2028
+                    </span>
+                    <span
+                      class="px-3 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full"
+                    >
+                      Completed
+                    </span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 ml-4">
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-circle-check text-green-600"></i>
+                  </button>
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-pen-to-square text-gray-400"></i>
+                  </button>
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-trash-can text-gray-400"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Task Item 5 -->
+            <div class="p-6 hover:bg-gray-50 transition-colors bg-green-50/30">
+              <div class="flex items-start justify-between">
+                <div class="flex-1">
+                  <div class="flex items-center gap-3 mb-2">
+                    <input
+                      type="checkbox"
+                      checked
+                      class="w-5 h-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <h3
+                      class="text-base font-semibold text-gray-900 line-through"
+                    >
+                      User authentication flow
+                    </h3>
+                  </div>
+                  <p class="text-sm text-gray-600 ml-8 mb-3 line-through">
+                    Build secure login, signup, and password reset functionality
+                  </p>
+                  <div class="flex items-center gap-4 ml-8">
+                    <span class="text-xs text-gray-500 flex items-center gap-1">
+                      <i class="fa-regular fa-calendar"></i>
+                      Due Feb 14, 2028
+                    </span>
+                    <span
+                      class="px-3 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full"
+                    >
+                      Completed
+                    </span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 ml-4">
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-circle-check text-green-600"></i>
+                  </button>
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-pen-to-square text-gray-400"></i>
+                  </button>
+                  <button
+                    class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <i class="fa-regular fa-trash-can text-gray-400"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     </div>

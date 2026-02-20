@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Productivity Hub</title>
+    <script
+      type="module"
+      src="../src/user-management/src/app.js"
+      defer
+    ></script>
+
+    <!-- using tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- using font awesome for icons -->
+    <script
+      src="https://kit.fontawesome.com/e831457755.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body class="bg-[#F5F5F5] font-sans">
+    <!-- sidebar -->
+    <aside
+      class="min-h-screen border-r border-gray-200 w-64 fixed left-0 top-0 bg-white"
+    >
+      <!-- div for heading -->
+      <div class="p-6 border-b border-gray-200">
+        <h1 class="font-bold text-xl text-gray-900">Productivity Hub</h1>
+      </div>
+
+      <!-- div for tabs -->
+      <nav class="flex flex-col p-4 gap-2">
+        <a
+          data-filter="all"
+          href="../index.html"
+          class="filter-btn active w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
+        >
+          <i class="fa-solid fa-grip w-5"></i>
+          <span class="font-medium">Dashboard</span>
+        </a>
+
+        <a
+          data-filter="all"
+          href="allTasks.html"
+          class="filter-btn w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
+        >
+          <i class="fa-solid fa-list-check w-5"></i>
+          <span class="font-medium">All Tasks</span>
+        </a>
+
+        <a
+          data-filter="users"
+          href="users.html"
+          class="filter-btn w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
+        >
+          <i class="fa-solid fa-user w-5"></i>
+          <span class="font-medium">Users</span>
+        </a>
+
+        <a
+          data-filter="settings"
+          href="settings.html"
+          class="filter-btn w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
+        >
+          <i class="fa-solid fa-gear w-5"></i>
+          <span class="font-medium">Settings</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- main content section -->
+    <div class="ml-64">
+      <!-- fixed header -->
+      <header
+        class="flex justify-between items-center fixed top-0 right-0 bg-white px-8 py-4 border-b border-gray-200 z-10"
+        style="left: 256px"
+      >
+        <div>
+          <h1 class="font-bold text-2xl text-gray-900">Users</h1>
+        </div>
+
+        <div class="relative">
+          <i
+            class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+          ></i>
+
+          <input
+            id="headerSearchInput"
+            type="text"
+            placeholder="Search..."
+            class="pl-10 pr-4 py-2 bg-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+          />
+        </div>
+      </header>
+
+      <!-- Main Content with top padding -->
+      <main class="pt-14 py-6">
+        <!-- filter section -->
+        <div class="p-4 px-8 shadow-sm mb-6">
+          <!-- filters and search -->
+          <div class="flex items-center justify-start gap-4 py-8">
+            <!-- search -->
+            <input
+              id="searchInput"
+              type="text"
+              placeholder="Search by name or email..."
+              class="pl-2 pr-6 p-1 bg-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none transition placeholder:text-xs placeholder:text-gray-500"
+            />
+            <!-- role filter -->
+            <div class="w-full flex flex-col gap-2">
+              <select
+                id="roleFilter"
+                class="px-3 py-1 bg-gray-200 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700"
+              >
+                <option value="">All Roles</option>
+                <option>Engineering Manager</option>
+                <option>Senior Developer</option>
+                <option>Product Designer</option>
+                <option>Marketing Lead</option>
+                <option>Data Analyst</option>
+              </select>
+            </div>
+
+            <!-- department filter -->
+            <div class="w-full flex flex-col gap-2">
+              <select
+                id="departFilter"
+                class="px-3 py-1 bg-gray-200 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700"
+              >
+                <option value="">All Departments</option>
+                <option>Engineering</option>
+                <option>Design</option>
+                <option>Marketing</option>
+                <option>Analytics</option>
+                <option>Sales</option>
+              </select>
+            </div>
+
+            <!-- status filter -->
+            <div class="w-full flex flex-col gap-2">
+              <select
+                id="statusFilter"
+                class="px-3 py-1 bg-gray-200 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none text-gray-700"
+              >
+                <option value="">All Status</option>
+                <option>active</option>
+                <option>inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="hidden text-center py-10">
+          <div
+            class="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent mx-auto"
+          ></div>
+          <p class="text-gray-500 mt-4">Loading users...</p>
+        </div>
+
+        <!-- empty state -->
+        <div id="emptyState" class="hidden text-center py-10">
+          <svg
+            class="mx-auto h-12 w-12 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 17v-2a4 4 0 014-4h0a4 4 0 014 4v2m-8 0h8M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            ></path>
+          </svg>
+          <h3 class="mt-4 text-lg font-medium text-gray-700">No users found</h3>
+          <p class="mt-2 text-sm text-gray-500">
+            Try adjusting your search or filters to find users.
+          </p>
+        </div>
+
+        <!-- Error State -->
+        <div
+          id="errorState"
+          class="hidden bg-red-100 text-red-600 p-4 rounded-lg mb-6 text-center"
+        >
+          Failed to load users. Please try again.
+        </div>
+
+        <!-- users container -->
+        <div class="px-6">
+          <div
+            id="tableWrapper"
+            class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hidden"
+          >
+            <table class="min-w-full text-left">
+              <!-- table head -->
+              <thead class="bg-gray-50 border-b border-gray-200">
+                <tr
+                  class="text-xs font-semibold text-gray-600 uppercase tracking-wide"
+                >
+                  <th class="px-6 py-4">User</th>
+                  <th class="px-6 py-4">Email</th>
+                  <th class="px-6 py-4">Role</th>
+                  <th class="px-6 py-4">Status</th>
+                  <th class="px-6 py-4 text-right">Actions</th>
+                </tr>
+              </thead>
+
+              <!-- table body -->
+              <tbody
+                id="usersContainer"
+                class="divide-y divide-gray-200"
+              ></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- user detail modal -->
+        <div
+          id="userModal"
+          class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+        >
+          <div
+            class="bg-white border border-gray-200 rounded-xl p-8 w-full max-w-md shadow-xl relative"
+          >
+            <!-- close button and heading -->
+            <h1 class="text-black absolute top-4 left-4 font-bold text-lg">
+              User Details
+            </h1>
+
+            <button
+              id="closeModal"
+              class="absolute top-4 right-4 text-gray-500 hover:text-black transition"
+            >
+              <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- name and pfp -->
+            <div class="flex items-center gap-4 mb-6 mt-8">
+              <div
+                class="h-14 w-14 rounded-full bg-blue-600 flex items-center justify-center text-white text-xl font-bold"
+                id="modalAvatar"
+              ></div>
+              <div>
+                <h2 id="modalName" class="text-xl font-bold text-black"></h2>
+                <p id="modalRole" class="text-sm text-gray-600"></p>
+              </div>
+            </div>
+
+            <!-- details div -->
+            <div class="flex flex-col gap-4 text-sm">
+              <div class="flex flex-col gap-1">
+                <span class="text-gray-500 uppercase text-xs tracking-wide">
+                  Email
+                </span>
+                <span id="modalEmail" class="text-black"></span>
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="text-gray-500 uppercase text-xs tracking-wide">
+                  Department
+                </span>
+                <span id="modalDepartment" class="text-black"></span>
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="text-gray-500 uppercase text-xs tracking-wide">
+                  Joined
+                </span>
+                <span id="modalJoiningDate" class="text-black"></span>
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="text-gray-500 uppercase text-xs tracking-wide">
+                  Status
+                </span>
+                <span id="modalStatus" class="text-black"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

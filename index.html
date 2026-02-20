@@ -3,8 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TaskFlow</title>
-    <script type="module" src="src/app.js" defer></script>
+    <title>Productivity Hub</title>
+
+    <script type="module" src="./src/auth/guard.js"></script>
+    <script type="module" src="src/task-management/app.js" defer></script>
 
     <!-- using tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,6 +16,13 @@
       src="https://kit.fontawesome.com/e831457755.js"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+      // If no session, start at login page
+      if (!sessionStorage.getItem("ph_session")) {
+        window.location.replace("./login.html");
+      }
+    </script>
   </head>
   <body class="bg-[#F5F5F5] font-sans">
     <!-- sidebar -->
@@ -22,7 +31,7 @@
     >
       <!-- div for heading -->
       <div class="p-6 border-b border-gray-200">
-        <h1 class="font-bold text-xl text-gray-900">TaskFlow</h1>
+        <h1 class="font-bold text-xl text-gray-900">Productivity Hub</h1>
       </div>
 
       <!-- div for tabs -->
@@ -46,21 +55,21 @@
         </a>
 
         <a
-          data-filter="completed"
-          href="pages/completed.html"
+          data-filter="users"
+          href="pages/users.html"
           class="filter-btn w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
         >
-          <i class="fa-solid fa-check w-5"></i>
-          <span class="font-medium">Completed</span>
+          <i class="fa-solid fa-user w-5"></i>
+          <span class="font-medium">Users</span>
         </a>
 
         <a
-          data-filter="pending"
-          href="pages/pending.html"
+          data-filter="settings"
+          href="pages/settings.html"
           class="filter-btn w-full flex items-center gap-3 text-left px-4 py-3 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors"
         >
-          <i class="fa-solid fa-clock w-5"></i>
-          <span class="font-medium">Pending</span>
+          <i class="fa-solid fa-gear w-5"></i>
+          <span class="font-medium">Settings</span>
         </a>
       </nav>
     </aside>
@@ -76,19 +85,22 @@
           <h1 class="font-bold text-2xl text-gray-900">Dashboard</h1>
         </div>
 
-        <div>
-          <button
-            id="newTaskBtn"
-            class="bg-black text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-gray-800 transition-colors flex items-center gap-2"
-          >
-            <i class="fa-solid fa-plus"></i>
-            <span>New Task</span>
-          </button>
+        <div class="relative">
+          <i
+            class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+          ></i>
+
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search..."
+            class="pl-10 pr-4 py-2 bg-gray-100 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+          />
         </div>
       </header>
 
       <!-- Main Content with top padding -->
-      <main class="pt-20 px-8 py-6">
+      <main class="pt-14 px-4 py-6">
         <!-- add new task modal -->
         <div
           id="taskModal"
@@ -170,10 +182,10 @@
         </div>
 
         <!-- Statistics Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 m-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 m-8">
           <!-- total tasks card -->
           <div
-            class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex flex-col gap-4"
+            class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col gap-4"
           >
             <h3 class="text-gray-500 text-sm font-medium">Total</h3>
             <p class="text-3xl font-bold text-gray-900" id="total-task">5</p>
@@ -210,7 +222,32 @@
         <div
           class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"
         >
-          <div id="tasksList" class="divide-y divide-gray-100">
+          <!-- div for heading button and filter -->
+          <div class="flex items-center justify-between bg-[#F5F5F5] p-4">
+            <h1 class="font-bold text-lg">Tasks</h1>
+            <div class="w-full flex items-center justify-end gap-2">
+              <select
+                id="taskFilter"
+                class="px-3 py-1 bg-gray-200 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              >
+                <option value="">All Tasks</option>
+                <option>Pending Tasks</option>
+                <option>Completed Tasks</option>
+              </select>
+
+              <button
+                id="newTaskBtn"
+                class="bg-gray-800 text-white px-3 py-1 rounded-md hover:bg-gray-700 transition-colors flex items-center gap-2"
+              >
+                <i class="fa-solid fa-plus"></i>
+                <span>New Task</span>
+              </button>
+            </div>
+          </div>
+          <div
+            id="tasksList"
+            class="border rounded-lg divide-y divide-gray-100"
+          >
             <!-- Task Item 1 -->
             <div class="p-6 hover:bg-gray-50 transition-colors">
               <div class="flex items-start justify-between">
